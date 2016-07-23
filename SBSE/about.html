@@ -1,0 +1,50 @@
+<html>
+<head>
+	<title>About SBSE</title>
+	<link href="css/main.css" rel="stylesheet"/>
+	<link href="css/bootstrap.css" rel="stylesheet"/>
+	<link href="css/flat-ui.css" rel="stylesheet"/>
+	<link href="css/font-awesome.css" rel="stylesheet"/>
+
+	<script src="js/version_info.js"></script>
+	<script src="js/jquery.js"></script>
+	<script>
+	var gui = require('nw.gui');
+	var win = gui.Window.get();
+
+	$(function() {
+		$('#about_minimize_window').on('click', function() {
+			win.minimize();
+		});
+		$('#about_close_window').on('click', function() {
+			win.close();
+		});
+		$('#version_no').text(version);
+		$('#author').text(author+" ("+contact+")");
+		$('#website').text(base_url).click(function() {
+			gui.Shell.openExternal(base_url);
+		});
+	});
+	</script>
+</head>
+<body style="background: #bfbfbf; color: #222;">
+
+	<div id="about_header">
+		<div class="pull-left" style="font-size: 12px; color: #666; margin-left: 10px; margin-top: 3px;">About SBSE</div>
+		<div class="pull-right" style="padding: 5px; padding-top: 3px;">
+			<div id="about_minimize_window"><i class="fa fa-minus"></i></div>
+			<div id="about_close_window"><i class="fa fa-times"></i></div>
+			<div style="clear:both;"></div>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+
+	<div style="padding: 10px; padding-top: 15px;">
+		<div style="margin-bottom: -10px; font-size: 28px; font-family: 'Ubuntu';">SBSE <span style="font-weight: 300;">Desktop</span></div>
+		<div style="margin-bottom: -2px; font-size: 12px">Version: <span id="version_no"></span></div>
+		<div style="margin-bottom: -2px; font-size: 12px">Author: <span id="author"></span></div>
+		<div style="font-size: 12px">Website: <span id="website" style="cursor: pointer; color: #3498db;"></span></div>
+	</div>
+
+</body>
+</html>

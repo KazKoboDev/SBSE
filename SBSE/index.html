@@ -1,0 +1,143 @@
+<html>
+<head>
+	<title>Starbound Save Editor</title>
+	<link href="css/bootstrap.css" rel="stylesheet"/>
+	<link href="css/flat-ui.css" rel="stylesheet"/>
+	<link href="css/font-awesome.css" rel="stylesheet"/>
+	<link href="fonts/flaticon.css" rel="stylesheet"/>
+	<link href="css/spectrum.css" rel="stylesheet"/>
+	<link href="css/tipsy.css" rel="stylesheet"/>
+	<link href="css/main.css" rel="stylesheet"/>
+
+	<script src="js/version_info.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery.fs.stepper.min.js"></script>
+	<script src="js/jquery.tipsy.js"></script>
+	<script src="js/spectrum.js"></script>
+	<script src="js/tinycolor.js"></script>
+	<script src="js/easing.js"></script>
+	<script src="js/underscore.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/flatui-checkbox.js"></script>
+	<script src="js/offsetbuffer.js"></script>
+	<script src="js/lzadialog.js"></script>
+	<script src="js/jsonminify.js"></script>
+	<script src="js/zlib.js"></script>
+	<script src="js/png.js"></script>
+	<script src="js/starpak.js"></script>
+	<script src="js/starsave.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body>
+
+	<div class="border"></div>
+
+	<div id="header">
+		<div id="logo" class="pull-left">
+			SBSE <span>Desktop</span>
+		</div>
+		<div class="pull-left top-icons"><i class="new-update fa fa-cloud-download"></i><span class="new-update-text">Update</span></div>
+		<div class="pull-right" style="padding: 9px; padding-bottom: 0px;">
+			<div id="console"><i class="fa fa-minus"></i></div>
+			<div id="reload"><i class="fa fa-refresh"></i></div>
+			<div id="minimize_window"><i class="fa fa-minus"></i></div>
+			<div id="close_window"><i class="fa fa-times"></i></div>
+			<div style="clear:both;"></div>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+
+	<div id="player_list">
+		<ul class="ul-players" style="padding-bottom: 5px;"></ul>
+		<ul class="ul-backups" style="display: none; padding-bottom: 5px;"></ul>
+		<div class="backup-title">
+			<h3 class="pull-left">Browsing Backups</h3>
+			<button type="button" class="pull-right backup-return btn btn-white">Back</button>
+		</div>
+		<div class="loading">
+			<div class="spinner"><i class="fa fa-refresh fa-spin"></i></div>
+			<div class="warning"><i class="fa fa-warning"></i></div>
+			<div class="update"><i class="fa fa-cloud-download"></i></div>
+			<span id="init_status">Initializing</span><br />
+			<button type="button" style="display: none;" class="selbtn btn btn-white">Select Location</button>
+			<button type="button" style="display: none;" class="backupbackbtn btn btn-white">Return</button>
+		</div>
+		<div id="about"><i class="fa fa-question-circle"></i></div>
+	</div>
+
+	<div class="editor_content">
+		<div class="edited-warning alert alert-warning alert-dismissable">
+			<button type="button" class="close" onclick="$('.edited-warning').slideUp(100);PlayerFilesList[ActiveEdit].Player.showWarning=false;"><i class="fa fa-times-circle"></i></button>
+			<strong>Warning!</strong> This file has been changed by another program while you were editing it. Any changes you save now may revert any changes made to the file by another program.
+		</div>
+		<ul id="zcolors"></ul>
+		<ul id="zcolors-adv"></ul>
+		<ul id="zinfo"></ul>
+	</div>
+
+	<div id="wrapper">
+		<div id="content_container"></div>
+		<div id="player_preview">
+			<div class="player_cnv"></div>
+			<div class="player_mod">
+				<div class="pose-arm-pos-x input-group"><span class="input-group-addon">X</span><input type="number" pattern="\d*" min="-2" max="2" value="0" /></div>
+				<div class="pose-arm-pos-y input-group"><span class="input-group-addon">Y</span><input type="number" pattern="\d*" min="-8" max="8" value="0" /></div>
+				<i class="pose-body-left fa fa-chevron-circle-left"></i>
+				<i class="pose-body-right fa fa-chevron-circle-right"></i>
+				<i class="pose-arm-left fa fa-chevron-circle-left"></i>
+				<i class="pose-arm-right fa fa-chevron-circle-right"></i>
+				<i class="choose-emote fa fa-smile-o" title="Choose Emote"></i>
+			</div>
+			<div class="player_info">
+				<span class="name-box"><span class="pname"></span><i class="edit-name fa fa-pencil-square"></i><i class="random-name flaticon-dice1"></i></span><br />
+				<div id="player_pixels"><input id="player_pixels_n" type="number" pattern="\d*" min="0" /></div>
+				<div class="pull-left btn-group playerops">
+					<button type="button" data-switch="info" class="btn btn-inverse active">Info</button>
+					<button type="button" data-switch="colors" class="btn btn-inverse">Colors</button>
+				</div>
+				<label style="cursor: pointer; float: left; padding-left: 27px; margin-top: 1px; margin-left: 5px;" class="checkbox" for="checkbox1">
+					<input type="checkbox" value="" id="advanced-check" data-toggle="checkbox">
+					Advanced
+				</label>
+			</div>
+			<div class="adv" style="font-style: italic; font-size: 10px; color: #ccc; top: -5px;  float: left;  z-index: 24;  position: relative;">uuid: <span class="uuid"></span></div>
+			<div class="edit_btns">
+				<button class="cancel_edit btn btn-default">Cancel</button>
+				<button class="toggle_armor btn btn-primary">Toggle Armor</button>
+				<button class="save_file btn btn-info">Save</button>
+			</div>
+			<div class="emotes-box"></div>
+			<div class="blurred_background"></div>
+		</div>
+	</div>
+
+	<div id="error_message" style="display: none;">
+		<div>
+			<i class="fa fa-frown-o"></i><br />
+			<span style="font-family: 'Ubuntu'; font-size: 24px; font-weight: 300;"><i>Uh Oh...</i></span><br />
+			<span style="font-family: 'Open Sans'; font-size: 12px;">Something went wrong and SBSE cannot continue!</span><br />
+			<span style="display: inline-block;">
+				<button type="button" style="margin-right: 10px;" class="pull-left btn btn-white">Send Report</button> 
+				<button type="button" onclick="win.close();" class="pull-right btn btn-white">Close</button>
+			</span>
+		</div>
+	</div>
+
+	<img src="images/playerborder_mask.png" id="playerborder" style="display: none;" />
+
+	<script>
+		window.listenForKey = true;
+		onkeydown = function(e) {
+			if (window.listenForKey && e.shiftKey == true) {
+				localStorage.clear();
+				window.listenForKey = false;
+			}
+		}
+		onload = function() {
+			checkForUpdates();
+			gui.Window.get().show();
+		}
+	</script>
+
+</body>
+</html>
